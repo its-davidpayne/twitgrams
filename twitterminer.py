@@ -2,6 +2,7 @@
 from twython import Twython
 import json
 import random
+import os
 import sys
 import time
 
@@ -59,10 +60,12 @@ class TwitterHistory():
                 word = ""
             elif word.startswith("@"):
                 word = ""
+            elif "\xe2\x80" in word:
+                word = ""
         return " ".join(word_list)
 
     def save_tweets_to_file(self, tweet_texts):
-        file_name = "{}.txt".format(self.screen_name)
+        file_name = f"data{os.sep}{self.screen_name}.txt"
         with open(file_name, "w") as textwriter:
             for tweet in tweet_texts:
                 tweet = self.clean_tweet(tweet)

@@ -52,7 +52,7 @@ def do_tweets(number):
 
 if __name__ == '__main__':
     screen_name = str(input("Enter the twitter username: "))
-    if not os.path.exists("../{}.txt".format(screen_name)) and not os.path.exists("{}.txt".format(screen_name)):
+    if not os.path.exists(f"data{os.sep}{screen_name}.txt"):
         import twitterminer
         from twitterminer import TwitterHistory
         UserBot = TwitterHistory(screen_name)
@@ -60,12 +60,8 @@ if __name__ == '__main__':
         tweet_texts = UserBot.return_only_tweet_text(full_tweets)
         UserBot.save_tweets_to_file(tweet_texts)
 
-    if os.path.exists(f"{screen_name}.txt"):
-        tweet_file = f"{screen_name}.txt" 
-    else:
-        tweet_file = f"../{screen_name}.txt"
-
-
+    tweet_file = f"data{os.sep}{screen_name}.txt" 
+    
     with open(tweet_file, "r") as reader:
         tweetlist = [tweet for tweet in reader]
 
