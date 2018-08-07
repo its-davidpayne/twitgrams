@@ -57,7 +57,7 @@ class TwitterHistory():
         for word in word_list:
             if word.startswith("http"):
                 word = ""
-            if word.startswith("@"):
+            elif word.startswith("@"):
                 word = ""
         return " ".join(word_list)
 

@@ -1,30 +1,8 @@
 # -*- coding: utf-8 -*-
 from twython import Twython
-import json
 import os
 import random
 import sys
-import time
-        
-                
-screen_name = sys.argv[1]
-
-if not os.path.exists("../{}.txt".format(screen_name)) and not os.path.exists("{}.txt".format(screen_name)):
-    import twitterminer
-    from twitterminer import TwitterHistory
-    UserBot = TwitterHistory(screen_name)
-    full_tweets = UserBot.get_tweets()
-    tweet_texts = UserBot.return_only_tweet_text(full_tweets)
-    UserBot.save_tweets_to_file(tweet_texts)
-
-if os.path.exists(f"{screen_name}.txt"):
-    tweet_file = f"{screen_name}.txt" 
-else:
-    tweet_file = f"../{screen_name}.txt"
-
-
-with open(tweet_file, "rb") as reader:
-    tweetlist = [tweet for tweet in reader]
 
 
 def beginning_words(tweetlist):
@@ -63,16 +41,37 @@ def make_tweet(beginlist, map_dict, length):
             markov_chain.append(random.choice(map_dict[markov_chain[-1]]))
         except KeyError:
             continue
-    return " ".join(markov_chain)
+    return " ".join(markov_chain).replace("\n", " ")
+
 
 def do_tweets(number):
     for _ in range(number):
-        make_tweet(beginning_words, map_dict, 20)
+        print(make_tweet(beginning_words, map_dict, 20))
 
 #TODO clean out links, @s, maybe emojis.
 
-beginning_words = beginning_words(tweetlist)
-pairs = make_pairs(tweetlist)
-map_dict = create_dict(pairs)
+if __name__ == '__main__':
+    screen_name = str(input("Enter the twitter username: "))
+    if not os.path.exists("../{}.txt".format(screen_name)) and not os.path.exists("{}.txt".format(screen_name)):
+        import twitterminer
+        from twitterminer import TwitterHistory
+        UserBot = TwitterHistory(screen_name)
+        full_tweets = UserBot.get_tweets()
+        tweet_texts = UserBot.return_only_tweet_text(full_tweets)
+        UserBot.save_tweets_to_file(tweet_texts)
 
-make_tweet(beginning_words, map_dict, 20)
+    if os.path.exists(f"{screen_name}.txt"):
+        tweet_file = f"{screen_name}.txt" 
+    else:
+        tweet_file = f"../{screen_name}.txt"
+
+
+    with open(tweet_file, "r") as reader:
+        tweetlist = [tweet for tweet in reader]
+
+
+    beginning_words = beginning_words(tweetlist)
+    pairs = make_pairs(tweetlist)
+    map_dict = create_dict(pairs)
+
+do_tweets(20)
