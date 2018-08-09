@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from twython import Twython
 import os
 import random
-import sys
 
 
 def beginning_words(tweetlist):
@@ -48,7 +46,6 @@ def do_tweets(number):
     for _ in range(number):
         print(make_tweet(beginning_words, map_dict, 20))
 
-#TODO clean out links, @s, maybe emojis.
 
 if __name__ == '__main__':
     screen_name = str(input("Enter the twitter username: "))
@@ -70,4 +67,4 @@ if __name__ == '__main__':
     pairs = make_pairs(tweetlist)
     map_dict = create_dict(pairs)
 
-do_tweets(20)
+    do_tweets(20)

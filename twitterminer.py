@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from twython import Twython
 import json
-import random
 import os
 import sys
 import time
 
-CREDENTIALS_FILENAME = '../creds-twitter.json'
+CREDENTIALS_FILENAME = 'creds-twitter.json'
 jf = open(CREDENTIALS_FILENAME)
 creds = json.load(jf)
 jf.close()
