@@ -20,7 +20,15 @@ class TwitterHistory():
     def __init__(self, screen_name):
         self.screen_name = screen_name
     
+    def __repr__(self):
+        return f"TwitterHistory({self.screen_name})"
+
     def get_tweets(self):
+        """ The twitter API allows you to fetch 200 tweets at a time, at 15 min
+        intervals, to a max of 3000.
+
+        So for a user with 3k+ tweets, this WILL take 45 minutes regardless.
+        """
         cumulative_result = []
         count = 0
         max_id = None
@@ -31,8 +39,7 @@ class TwitterHistory():
             else:
                 result = client.get_user_timeline(screen_name=self.screen_name, 
                                                   count=200, include_rts=False, 
-                                                  max_id=max_id)
-            
+                                                  max_id=max_id)          
             max_id = result[-1]['id'] - 1
             for tweet in result:
                 cumulative_result.append(tweet)
@@ -49,21 +56,34 @@ class TwitterHistory():
         return cumulative_result
     
     def return_only_tweet_text(self, full_tweets):
+        """ each tweet is a json object, we only want the actual text"""
         return [tweet['text'] for tweet in full_tweets]
     
+    def skip_word(self, word):
+        """ skip any word that fits these criteria"""
+        if word.startswith("@"):
+            return True
+        elif word.startswith("http"):
+            return True
+        elif "\xe2\x80" in word:
+            return True
+        # Scope for more elifs here
+        else:
+            return False
+
     def clean_tweet(self, text):
-        """ much more to add here """
+        """ removes words that skip_word() deems unusable"""
         word_list = text.split(" ")
+        out_list = []
         for word in word_list:
-            if word.startswith("http"):
-                word = ""
-            elif word.startswith("@"):
-                word = ""
-            elif "\xe2\x80" in word:
-                word = ""
-        return " ".join(word_list)
+            if not self.skip_word(word):
+                out_list.append(word)
+        return " ".join(out_list)
 
     def save_tweets_to_file(self, tweet_texts):
+        """after cleaning, write the results to a txt file in the 
+        data subfolder
+        """
         file_name = f"data{os.sep}{self.screen_name}.txt"
         with open(file_name, "w") as textwriter:
             for tweet in tweet_texts:
