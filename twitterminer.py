@@ -24,7 +24,7 @@ class TwitterHistory():
         return f"TwitterHistory({self.screen_name})"
 
     def get_tweets(self):
-        """ The twitter API allows you to fetch 200 tweets at a time, at 15 min
+        """ The twitter API allows you to fetch 4x200 tweets at a time, at 15 min
         intervals, to a max of 3000.
 
         So for a user with 3k+ tweets, this WILL take 45 minutes regardless.
@@ -73,6 +73,7 @@ class TwitterHistory():
 
     def clean_tweet(self, text):
         """ removes words that skip_word() deems unusable"""
+        # return " ".join([word for word in text.split() if not self.skip_word(word)])
         word_list = text.split(" ")
         out_list = []
         for word in word_list:

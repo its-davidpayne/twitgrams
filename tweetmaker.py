@@ -17,6 +17,7 @@ class Tweeter():
     
     def beginning_words(self, tweetlist):
         """ returns a list of the first word of each tweet"""
+        # return [tweet[0] for tweet in tweets.split() for tweets in tweetlist]
         beginlist = []
         for tweet in tweetlist:
             tweets = tweet.split()
