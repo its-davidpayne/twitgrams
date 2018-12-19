@@ -1,9 +1,10 @@
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
-from twython import Twython
 import json
 import os
 import sys
 import time
+from twython import Twython
 
 CREDENTIALS_FILENAME = 'creds-twitter.json'
 jf = open(CREDENTIALS_FILENAME)
