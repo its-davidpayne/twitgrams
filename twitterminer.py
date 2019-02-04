@@ -88,7 +88,8 @@ class TwitterHistory():
         file_name = f"data{os.sep}{self.screen_name}.txt"
         with open(file_name, "w") as textwriter:
             for tweet in tweet_texts:
-                tweet = self.clean_tweet(tweet)
-                textwriter.write("{}\n".format(tweet))
+                if tweet:
+                    tweet = self.clean_tweet(tweet)
+                    textwriter.write("{}\n".format(tweet))
 
 
