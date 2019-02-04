@@ -22,7 +22,10 @@ class Tweeter():
         beginlist = []
         for tweet in tweetlist:
             tweets = tweet.split()
-            beginlist.append(tweets[0])
+            try:
+                beginlist.append(tweets[0])
+            except:
+                continue
         return beginlist
     
     def make_pairs(self, tweetlist):

@@ -33,27 +33,28 @@ class TwitterHistory():
         cumulative_result = []
         count = 0
         max_id = None
-        while count < 16:
-            if count == 0:
-                result = client.get_user_timeline(screen_name=self.screen_name, 
-                                              count=200, include_rts=False)
-            else:
-                result = client.get_user_timeline(screen_name=self.screen_name, 
-                                                  count=200, include_rts=False, 
-                                                  max_id=max_id)          
-            max_id = result[-1]['id'] - 1
-            for tweet in result:
-                cumulative_result.append(tweet)
-            count += 1
-            if count < 15:
-                print("Completed round {}. {} Tweets gathered so far".format(
-                        count, len(cumulative_result)))
-            else:
-                print("Finished! {} Tweets gathered in total.".format(
-                        len(cumulative_result)))
-            if count in [3, 7, 11]:
-                print("Sleeping for 15 minutes")
-                time.sleep(930)
+        try:
+            while count < 16:
+                if count == 0:
+                    result = client.get_user_timeline(screen_name=self.screen_name, 
+                                                      count=200, include_rts=False)
+                else:
+                    result = client.get_user_timeline(screen_name=self.screen_name, 
+                                                      count=200, include_rts=False, 
+                                                      max_id=max_id)          
+                max_id = result[-1]['id'] - 1
+                for tweet in result:
+                    cumulative_result.append(tweet)
+                count += 1
+                if count < 15:
+                    print(f"Completed round {count}. {len(cumulative_result)} Tweets gathered so far")
+                else:
+                    print(f"Finished! {len(cumulative_result)} Tweets gathered in total.")
+                if count in [3, 7, 11]:
+                    print("Sleeping for 15 minutes")
+                    time.sleep(930)
+        except IndexError as e:
+            print(f"Ending early with only {len(cumulative_result)} tweets gathered.\n{str(e)}")
         return cumulative_result
     
     def return_only_tweet_text(self, full_tweets):
@@ -65,8 +66,6 @@ class TwitterHistory():
         if word.startswith("@"):
             return True
         elif word.startswith("http"):
-            return True
-        elif "\xe2\x80" in word:
             return True
         # Scope for more elifs here
         else:
@@ -90,7 +89,6 @@ class TwitterHistory():
         with open(file_name, "w") as textwriter:
             for tweet in tweet_texts:
                 tweet = self.clean_tweet(tweet)
-                tweet = tweet.encode("utf-8", "ignore")
                 textwriter.write("{}\n".format(tweet))
 
 
