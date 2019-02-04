@@ -12,6 +12,7 @@ class Tweeter():
                 self.tweetlist = [tweet.replace("\n", " ") for tweet in reader]
         except UnicodeDecodeError as e:
             print(f"Unicode error. erm... try again on *nix? \n {str(e)}")
+            raise
         self.first_words = self.beginning_words(self.tweetlist)
         self.pairs = self.make_pairs(self.tweetlist)
         self.bigram_dict = self.create_bigram_dict(self.pairs)
