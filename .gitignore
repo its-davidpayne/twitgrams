@@ -2,3 +2,4 @@
 creds-twitter.json
 __pycache__/twitterminer.cpython-36.pyc
 .vscode/settings.json
+/data/*
