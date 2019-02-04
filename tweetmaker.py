@@ -7,8 +7,11 @@ class Tweeter():
     def __init__(self, screen_name):
         self.screen_name = screen_name
         self.tweet_file = f"data{os.sep}{self.screen_name}.txt"
-        with open(self.tweet_file, "r") as reader:
-            self.tweetlist = [tweet.replace("\n", " ") for tweet in reader]
+        try:
+            with open(self.tweet_file, "r") as reader:
+                self.tweetlist = [tweet.replace("\n", " ") for tweet in reader]
+        except UnicodeDecodeError as e:
+            print(f"Unicode error. erm... try again on *nix? \n {str(e)}")
         self.first_words = self.beginning_words(self.tweetlist)
         self.pairs = self.make_pairs(self.tweetlist)
         self.bigram_dict = self.create_bigram_dict(self.pairs)
