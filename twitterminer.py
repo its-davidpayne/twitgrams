@@ -47,14 +47,14 @@ class TwitterHistory():
                     cumulative_result.append(tweet)
                 count += 1
                 if count < 15:
-                    print(f"Completed round {count}. {len(cumulative_result)} Tweets gathered so far")
+                    print(f"{time.asctime()} Completed round {count}. {len(cumulative_result)} Tweets gathered so far")
                 else:
-                    print(f"Finished! {len(cumulative_result)} Tweets gathered in total.")
+                    print(f"{time.asctime()} Finished! {len(cumulative_result)} Tweets gathered in total.")
                 if count in [3, 7, 11]:
-                    print("Sleeping for 15 minutes")
-                    time.sleep(930)
+                    print(f"{time.asctime()} Sleeping for 15 minutes")
+                    time.sleep(910)
         except IndexError as e:
-            print(f"Ending early with only {len(cumulative_result)} tweets gathered.\n{str(e)}")
+            print(f"{time.asctime()} Ending early with only {len(cumulative_result)} tweets gathered.\n{str(e)}")
         return cumulative_result
     
     def return_only_tweet_text(self, full_tweets):
