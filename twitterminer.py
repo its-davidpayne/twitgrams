@@ -28,7 +28,7 @@ class TwitterHistory():
         """ The twitter API allows you to fetch 4x200 tweets at a time, at 15 min
         intervals, to a max of 3000.
 
-        So for a user with 3k+ tweets, this WILL take 45 minutes regardless.
+        So for a user with 3k+ tweets, this WILL take >60 minutes regardless.
         """
         cumulative_result = []
         count = 0

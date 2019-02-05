@@ -13,13 +13,29 @@ class Tweeter():
         except UnicodeDecodeError as e:
             print(f"Unicode error. erm... try again on *nix? \n {str(e)}")
             raise
-        self.first_words = self.beginning_words(self.tweetlist)
-        self.pairs = self.make_pairs(self.tweetlist)
+        self.cleanedlist = self.clean_list(self.tweetlist)
+        self.first_words = self.beginning_words(self.cleanedlist)
+        self.pairs = self.make_pairs(self.cleanedlist)
         self.bigram_dict = self.create_bigram_dict(self.pairs)
 
     def __repr__(self):
         return f"Tweeter({self.screen_name})"
     
+    def clean_list(self, tweetlist):
+        """ Returns a cleaner version of the tweetlist"""
+        cleaned_list = []
+        for tweet in tweetlist:
+            cleaned_tweet = []
+            for word in tweet.split():
+                cleaned_word = word.strip()
+                cleaned_word = cleaned_word.replace("&amp;", "&")
+                if not cleaned_word.startswith("http"):
+                    cleaned_tweet.append(cleaned_word)
+                else:
+                    pass
+            cleaned_list.append(" ".join(cleaned_tweet))
+        return cleaned_list
+
     def beginning_words(self, tweetlist):
         """ returns a list of the first word of each tweet"""
         # return [tweet[0] for tweet in tweets.split() for tweets in tweetlist]
