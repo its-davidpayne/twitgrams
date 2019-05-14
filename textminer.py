@@ -12,12 +12,14 @@ import os
 import sys
 import time
 
-with open('frankenstein.txt', encoding='utf-8') as textreader:
+textfile = input("Which textfile to open?: ")
+
+with open(textfile, encoding='utf-8') as textreader:
     raw_text = textreader.read()
     # raw_text = raw_text.replace('\n', ' ').replace('\t',' ')
     print('All chars: ', len(raw_text))
 
-remove_unwanted_chars = re.compile('[^a-zA-Z0-9\.?! ]', re.UNICODE)
+remove_unwanted_chars = re.compile('[^a-zA-Z0-9\.?!\- ]', re.UNICODE)
 simplify_whitespace = re.compile('[\n\t\v\f\r]', re.UNICODE)
 unify_whitespace = re.compile('[ ]{2,}', re.UNICODE)
 splitter = re.compile('([\w ]+[\.\?\!])')
@@ -46,7 +48,7 @@ print('Num sentences: ', len(sentences))
 
 print(sentences[:10])
 
-file_name = f'data{os.sep}frankenstein_cleaned.txt'
+file_name = f'data{os.sep}{textfile}'
 with open(file_name, 'w') as textwriter:
     for senten in sentences:
         if senten:
